@@ -14,3 +14,19 @@
   -moz-osx-font-smoothing: grayscale;
 
 }
+html, body,#app, main {
+  min-width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.stage-columns {
+  /*overflow: scroll;*/
+
+}
+@media screen and (max-width: 568px) {
+  .stage-columns {
+    overflow: scroll;
+  }
+  
+}
