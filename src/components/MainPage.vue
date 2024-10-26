@@ -1,6 +1,6 @@
 <template>
-  <div className="main-page h-full flex flex-col w-full overflow-y-hidden">
-    <div className="stage-columns flex pt-8 justify-center px-8 w-full" style="gap:10%">
+  <div class="main-page h-full flex flex-col w-full overflow-y-hidden">
+    <div class="stage-columns flex pt-8 justify-center px-8 w-full" style="gap:10%;">
       <StageColumn
           v-for="(state, index) in states"
           :key="index"

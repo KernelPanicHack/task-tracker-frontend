@@ -8,10 +8,15 @@ const taskStore = useTaskStore();
 const refreshTasks = () => {
   taskStore.fetchTasks();
 };
+
+
+
+
 const searchQuery = ref('');
 const showUserInfo = ref(false);
 const fullName = ref('');
 const position = ref('');
+const roleUser = ref('');
 const registrationDate = ref('');
 const isEditingName = ref(false);
 const isEditingPosition = ref(false);
@@ -32,6 +37,9 @@ onMounted(async () => {
     if (userData) {
       fullName.value = userData.fullName || ''; // Установка ФИО
       position.value = userData.specialization || ''; // Установка должности
+      roleUser.value = userData.roles || '';
+      localStorage.setItem('roleUser', JSON.stringify(roleUser.value));
+      console.log(roleUser.value);
       registrationDate.value = userData.date_of_registration || ''; // Установка даты регистрации
       if (userData.avatar_path) {
         userAvatar.value = userData.avatar_path; // Установка аватара из пути
@@ -70,31 +78,10 @@ const savePositionChanges = () => {
   // Логика сохранения изменений для должности
   isEditingPosition.value = false;
 };
-// Состояние для показа AdminPanel
-const showAdminPanel = ref(false);
-
-// Метод для переключения видимости AdminPanel
-const toggleAdminPanel = () => {
-  showAdminPanel.value = !showAdminPanel.value;
-};
 </script>
 
 <template>
   <header class="flex justify-around items-center bg-main-color  w-full">
-    <!-- Модальное окно с AdminPanel -->
-    <div v-if="showAdminPanel" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div class="bg-white rounded-lg p-4 shadow-lg max-w-2xl w-full">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold">Admin Panel</h2>
-          <button @click="toggleAdminPanel" class="text-gray-500 hover:text-gray-700">
-            <i class="pi pi-times text-xl"></i>
-          </button>
-        </div>
-
-        <!-- Компонент AdminPanel -->
-        <AdminPanel />
-      </div>
-    </div>
     <div class="flex items-center">
       <img src="../assets/logoWebpractik.svg" alt="logo">
     </div>
@@ -112,13 +99,12 @@ const toggleAdminPanel = () => {
           class="p-button-rounded p-button-secondary p-button-outlined"
           @click="refreshTasks"
       />
-      <Button icon="pi pi-cog" class="p-button-rounded p-button-secondary p-button-outlined" @click="toggleAdminPanel" /> <!-- шестерёнка -->
+      <Button icon="pi pi-cog" class="p-button-rounded p-button-secondary p-button-outlined"/>
       <Button icon="pi pi-download" class="p-button-rounded p-button-secondary p-button-outlined"/>
       <Button class="p-button-rounded p-button-secondary p-2 p-button-outlined" @click="toggleUserInfo">
         <i class="pi pi-user text-black"></i>
       </Button>
     </div>
-
     <div
         v-if="showUserInfo"
         class="absolute top-[4.5rem] right-0 w-2/3 h-auto bg-white border border-gray-300 p-4 shadow-lg rounded-lg"
@@ -208,8 +194,11 @@ const toggleAdminPanel = () => {
               class="pi pi-save text-gray-500 cursor-pointer"
           ></i>
         </div>
-      </div>
 
+      </div>
+      <div class="w-full flex justify-start gap-1" style="margin-left: 6% ">
+        <span>Роль пользователя: </span><span class="text-red-500">  {{roleUser.toString()}}</span>
+      </div>
 
 
     </div>

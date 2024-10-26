@@ -17,6 +17,7 @@ export const getUserData = async (userId) => {
             avatar_path: userData.avatar_path,
             name:userData.name,
             surname: userData.surname,
+            roles: response.data.roles,
         };
 
         // Вывод значений в консоль
