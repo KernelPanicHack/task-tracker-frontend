@@ -8,7 +8,7 @@ import {useRoute} from 'vue-router';
 
 <template>
   <Header />
-<main>
+<main >
   <router-view />
 </main>
 
