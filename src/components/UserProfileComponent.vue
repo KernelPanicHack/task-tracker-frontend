@@ -54,7 +54,7 @@ export default {
   setup() {
     const searchQuery = ref('');
     const showUserInfo = ref(false);
-    const fullName = ref('Иванов Иван Иванович');
+    const fullName = ref('Дмитрий Пиэйчпи Бэекендович');
     const position = ref('Разработчик');
     const registrationDate = ref('2023-01-01');
 
