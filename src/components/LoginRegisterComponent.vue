@@ -95,7 +95,7 @@ const submitForm = async () => {
         serverError.value = response.data.message || 'Произошла ошибка. Попробуйте снова.';
       }
     } else {
-      response = await register(email.value, fullName.value, userLogin.value, password.value);
+      response = await register(email.value, fullName.value, userLogin.value, password.value, confirmPassword.value);
       if (response.data.success) {
         // Записываем токен в localStorage
         localStorage.setItem('authToken', response.data.token);
