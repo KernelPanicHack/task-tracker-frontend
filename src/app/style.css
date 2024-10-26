@@ -14,19 +14,47 @@
   -moz-osx-font-smoothing: grayscale;
 
 }
-html, body,#app, main {
+html, body{
   min-width: 100%;
-  min-height: 100%;
   overflow: hidden;
+  margin: 0;
+}
+#app {
+
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the app takes at least the full viewport height */
+
+
+  overflow-y: hidden/* Ensure the background image is positioned relative to this container */
+
 }
 
-.stage-columns {
+main {
+  position: relative;
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.html {
   /*overflow: scroll;*/
+  justify-content: center;
+  align-items: start;
+  overflow-y: hidden;
 
 }
 @media screen and (max-width: 568px) {
   .stage-columns {
-    overflow: scroll;
+    overflow-x: scroll;
   }
-  
+
+}
+@media screen and (max-height: 480px) {
+  html {
+    overflow-y: scroll;
+  }
+
 }
