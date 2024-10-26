@@ -1,6 +1,10 @@
 <script setup>
-import {ref} from "vue";
-import {login, register} from '../api/auth.js';  // Импортируем API-запросы
+import { ref } from "vue";
+import { useRouter } from "vue-router"; // Импортируем useRouter
+import { login, register } from '../api/auth.js';
+
+// Создаем экземпляр роутера
+const router = useRouter();
 
 const isLogin = ref(true);
 const email = ref('');
@@ -20,6 +24,7 @@ const resetErrors = () => {
   emailError.value = '';
   passwordError.value = '';
   confirmPasswordError.value = '';
+  fullNameError.value = '';
   serverError.value = '';
 };
 
@@ -47,29 +52,21 @@ const validateForm = () => {
   if (!validateEmail(email.value)) {
     emailError.value = 'Введите корректный email';
     isValid = false;
-  } else {
-    emailError.value = '';
   }
 
   if (password.value.length < 6) {
     passwordError.value = 'Пароль должен содержать минимум 6 символов';
     isValid = false;
-  } else {
-    passwordError.value = '';
   }
 
   if (!isLogin.value && password.value !== confirmPassword.value) {
     confirmPasswordError.value = 'Пароли не совпадают';
     isValid = false;
-  } else {
-    confirmPasswordError.value = '';
   }
 
-  if (!validateFullName(fullName.value)) {
+  if (!isLogin.value && !validateFullName(fullName.value)) {
     fullNameError.value = 'Имя пользователя может содержать буквы, дефисы и пробелы';
     isValid = false;
-  } else {
-    fullNameError.value = '';
   }
 
   return isValid;
@@ -77,22 +74,32 @@ const validateForm = () => {
 
 // Отправка данных формы на сервер
 const submitForm = async () => {
+  resetErrors(); // Сброс ошибок перед проверкой
   if (!validateForm()) {
     return;
   }
 
   try {
+    let response;
     if (isLogin.value) {
-      const response = await login(email.value, password.value);
+      response = await login(email.value, password.value);
       if (response.data.success) {
+        // Записываем токен в localStorage
+        localStorage.setItem('authToken', response.data.token);
         console.log('Успешный вход');
+        // Перенаправляем на главную страницу
+        await router.push({name: 'MainPage'});
       } else {
         serverError.value = response.data.message || 'Произошла ошибка. Попробуйте снова.';
       }
     } else {
-      const response = await register(email.value, fullName.value, userLogin.value, password.value, confirmPassword.value);
+      response = await register(email.value, fullName.value, userLogin.value, password.value);
       if (response.data.success) {
+        // Записываем токен в localStorage
+        localStorage.setItem('authToken', response.data.token);
         console.log('Успешная регистрация');
+        // Перенаправляем на главную страницу
+        router.push({ name: 'MainPage' });
       } else {
         serverError.value = response.data.message || 'Произошла ошибка. Попробуйте снова.';
       }
@@ -102,6 +109,7 @@ const submitForm = async () => {
   }
 };
 </script>
+
 
 <template>
   <div class="rounded-3xl overflow-hidden shadow-2xl">
@@ -134,7 +142,7 @@ const submitForm = async () => {
             </FloatLabel>
             <span v-if="passwordError" class="text-red-500 text-sm">{{ passwordError }}</span>
           </div>
-          <Button class="w-full" @click="submitForm" rounded>{{ isLogin ? 'Войти' : 'Регистрация' }}</Button>
+          <Button class="w-full" @click="submitForm">{{ isLogin ? 'Войти' : 'Регистрация' }}</Button>
           <p class="text-sm text-center text-gray-600">
             У вас еще нет аккаунта?
             <span class="text-blue-600 cursor-pointer" @click="toggleForm">{{
@@ -154,14 +162,14 @@ const submitForm = async () => {
           <div>
             <FloatLabel variant="on">
               <InputText v-model="fullName" inputId="register_full_name_input" type="text" class="w-full"/>
-              <label for="register_email_input">ФИО</label>
+              <label for="register_full_name_input">ФИО</label>
             </FloatLabel>
             <span v-if="fullNameError" class="text-red-500 text-sm">{{ fullNameError }}</span>
           </div>
           <div>
             <FloatLabel variant="on">
               <InputText v-model="userLogin" inputId="register_login_input" type="text" class="w-full"/>
-              <label for="register_email_input">Логин</label>
+              <label for="register_login_input">Логин</label>
             </FloatLabel>
           </div>
           <div>
@@ -205,11 +213,10 @@ const submitForm = async () => {
       </template>
     </Card>
   </div>
-
 </template>
 
 <style scoped>
 .p-invalid {
-  border-color: red;
+  border-color: #dc3545 !important;
 }
 </style>
