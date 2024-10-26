@@ -9,7 +9,7 @@ export async function loadStates() {
     try {
         const response = await apiClient.get('api/states', {
             headers: {
-                authorization: `Bearer ${localStorage.access_token}`,
+                authorization: `Bearer ${localStorage.getItem('authToken')}`,
             },
         });
 
