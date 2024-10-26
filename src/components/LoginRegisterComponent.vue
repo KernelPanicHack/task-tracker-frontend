@@ -86,6 +86,8 @@ const submitForm = async () => {
       if (response.data.success) {
         // Записываем токен в localStorage
         localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('user_id',response.data.user.id)
+        console.log(localStorage.getItem('user_id'));
         console.log('Успешный вход');
         // Перенаправляем на главную страницу
         await router.push({name: 'MainPage'});
