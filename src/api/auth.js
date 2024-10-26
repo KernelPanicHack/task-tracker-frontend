@@ -1,15 +1,20 @@
 import axios from 'axios';
 
-// Функция для входа
+const API_URL = 'http://192.168.10.191:80/';
+const apiClient = axios.create({
+    baseURL: API_URL,
+});
+
 export const login = async (email, password) => {
-    return axios.post('/api/login', { email, password });
+    return apiClient.post('/api/login', { email, password });
 };
 
-// Функция для регистрации
-export const register = async (email, password, confirmPassword) => {
-    return axios.post('/api/register', {
+export const register = async (email, fullName, login, password, password_confirmation) => {
+    return apiClient.post('/api/register', {
         email,
+        fullName,
+        login,
         password,
-        confirmPassword
+        password_confirmation
     });
 };
