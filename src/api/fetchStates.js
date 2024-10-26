@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = 'http://127.0.0.1:80/';
+import { API_URL } from '@/api/auth.js';
 const apiClient = axios.create({
     baseURL: API_URL,
 });
