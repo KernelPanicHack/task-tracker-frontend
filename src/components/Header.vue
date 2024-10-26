@@ -3,6 +3,11 @@ import {ref, onMounted} from 'vue';
 import {logout} from "@/api/logout.js";
 import {getUserData} from '@/api/fetchUser.js'; // Импортируйте вашу функцию
 
+
+
+
+
+
 const searchQuery = ref('');
 const showUserInfo = ref(false);
 const fullName = ref('');

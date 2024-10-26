@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MainPage from '@/components/MainPage.vue';
 import NotFound from '@/components/NotFound.vue';
 import AuthPage from '@/components/AuthPage.vue';
+import LogReg from '@/components/LoginRegisterComponent.vue'
 
 const isAuthenticated = () => {
     return !!localStorage.getItem('authToken');
@@ -11,7 +12,8 @@ const routes = [
     { path: '/', redirect: '/auth' },
     { path: '/auth', name: 'AuthPage', component: AuthPage },
     { path: '/main', name: 'MainPage', component: MainPage },
-    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+    {path: '/login', name: 'LogReg', component: LogReg}
 ];
 
 const router = createRouter({
