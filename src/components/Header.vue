@@ -2,8 +2,12 @@
 import {ref, onMounted} from 'vue';
 import {logout} from "@/api/logout.js";
 import {getUserData} from '@/api/fetchUser.js'; // Импортируйте вашу функцию
+import { useTaskStore } from '@/store/taskStore';
 
-
+const taskStore = useTaskStore();
+const refreshTasks = () => {
+  taskStore.fetchTasks();
+};
 
 
 
@@ -73,7 +77,7 @@ const savePositionChanges = () => {
 </script>
 
 <template>
-  <header class="flex justify-around items-center bg-main-color">
+  <header class="flex justify-around items-center bg-main-color  w-full">
     <div class="flex items-center">
       <img src="../assets/logoWebpractik.svg" alt="logo">
     </div>
@@ -86,6 +90,11 @@ const savePositionChanges = () => {
       <i class="pi pi-filter ml-2 text-gray-500 cursor-pointer"></i>
     </div>
     <div class="flex items-center space-x-4 p-4 rounded-lg">
+      <Button
+          icon="pi pi-refresh"
+          class="p-button-rounded p-button-secondary p-button-outlined"
+          @click="refreshTasks"
+      />
       <Button icon="pi pi-cog" class="p-button-rounded p-button-secondary p-button-outlined"/>
       <Button icon="pi pi-download" class="p-button-rounded p-button-secondary p-button-outlined"/>
       <Button class="p-button-rounded p-button-secondary p-2 p-button-outlined" @click="toggleUserInfo">

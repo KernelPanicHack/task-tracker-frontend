@@ -1,9 +1,15 @@
 <template>
-  <div class="flex h-5/6 w-96 min-w-1/4 border-2 border-gray-300 rounded-xl shadow-2xl bg-primary text-center p-4">
+  <div class="flex w-96 min-w-1/4 border-2 border-gray-300 rounded-xl shadow-2xl bg-primary text-center p-4" style="height: 60%">
     <div class="w-full">
       <h2 class="text-lg font-semibold mb-2 border-b-2 border-black/10" style="white-space: nowrap">{{ title }}</h2>
-      <div v-if="tasks && tasks.length" class="task-list">
-        <TaskCard v-for="task in tasks" :key="task.id" :title="task.title" :assignee="task.assignee" :state="task.tasks_state.id" />
+      <div v-if="filteredTasks.length" class="task-list overflow-y-scroll overflow-x-hidden mt-5" style="max-height: 90%; padding-right: 1%">
+        <TaskCard
+            v-for="task in filteredTasks"
+            :key="task.id"
+            :title="task.title"
+            :assignee="task.users ? `${task.users.name} ${task.users.surname} ${task.users.patronymic}` : 'Не назначен'"
+            :state="task.tasks_state ? task.tasks_state.id : null"
+        />
       </div>
       <div v-else class="text-gray-500">Нет задач</div>
     </div>
@@ -11,13 +17,20 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import {computed} from 'vue';
+import {useTaskStore} from '@/store/taskStore';
 import TaskCard from "@/components/TaskCard.vue";
 
 const props = defineProps({
   title: String,
-  tasks: Array,
-  isActive: Boolean,
-  stageNumber: Number,
+  stageNumber: Number
+});
+
+// Получаем задачи из хранилища
+const taskStore = useTaskStore();
+
+// Фильтрация задач по `stageNumber`
+const filteredTasks = computed(() => {
+  return taskStore.tasks.filter(task => task.tasks_state?.id === props.stageNumber);
 });
 </script>
