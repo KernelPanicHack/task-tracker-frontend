@@ -8,7 +8,7 @@ import {useRoute} from 'vue-router';
 
 <template>
   <Header />
-<main>
+  <main class="relative w-full flex justify-center">
   <router-view />
 </main>
 

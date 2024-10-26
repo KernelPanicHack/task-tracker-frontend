@@ -1,7 +1,7 @@
 <template>
   <div class="main-page h-full flex flex-col w-full">
 <!--    gap-10 flex p-8 flex-grow w-full-->
-    <div class="stage-columns  flex pt-8 justify-center" style="width:100% ;width:auto; gap:10%  ">
+    <div class="stage-columns  flex pt-8 justify-center px-8 w-full" style="gap:10%">
       <StageColumn
           v-for="(state, index) in states"
           :key="index"
