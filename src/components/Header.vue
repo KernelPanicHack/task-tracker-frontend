@@ -25,7 +25,7 @@ const toggleUserInfo = () => {
       />
       <i class="pi pi-filter ml-2 text-gray-500 cursor-pointer"></i>
     </div>
-    <div class="flex items-center space-x-4 p-4 rounded-lg">
+    <div class="flex items-center space-x-4 p-4 rounded-lg ">
       <Button icon="pi pi-cog" class="p-button-rounded p-button-secondary p-button-outlined" />
       <Button icon="pi pi-download" class="p-button-rounded p-button-secondary p-button-outlined" />
       <Button class="p-button-rounded p-button-secondary p-2 p-button-outlined" @click="toggleUserInfo">
@@ -34,7 +34,7 @@ const toggleUserInfo = () => {
     </div>
     <div
         v-if="showUserInfo"
-        class="absolute top-16 right-4 w-80 bg-white border border-gray-300 p-4 shadow-lg rounded-lg"
+        class="absolute top-16 right-4 w-80 bg-white border border-gray-300 p-4 shadow-lg rounded-lg z-99"
     >
       <div class="flex justify-center mb-4">
         <i class="pi pi-user text-4xl text-gray-700"></i>
