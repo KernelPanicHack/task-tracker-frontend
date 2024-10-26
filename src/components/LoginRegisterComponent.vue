@@ -9,7 +9,6 @@ const fullName = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 
-
 const emailError = ref('');
 const fullNameError = ref('');
 const passwordError = ref('');
