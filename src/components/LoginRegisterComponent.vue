@@ -54,8 +54,8 @@ const validateForm = () => {
     isValid = false;
   }
 
-  if (password.value.length < 6) {
-    passwordError.value = 'Пароль должен содержать минимум 6 символов';
+  if (password.value.length < 8) {
+    passwordError.value = 'Пароль должен содержать минимум 8 символов';
     isValid = false;
   }
 
