@@ -1,6 +1,6 @@
 <template>
-  <div class="max-w-sm bg-white rounded-lg shadow-md p-4 border border-gray-300 h-full">
-    <div class="flex items-center justify-between mb-4" style="min-height: 3rem">
+  <div class="max-w-sm bg-white rounded-lg shadow-md p-4 border border-gray-300">
+    <div class="flex items-center justify-between mb-4">
       <button class="text-gray-600 hover:text-gray-800 text-xl">
         <i class="pi pi-ellipsis-v"></i>
       </button>
@@ -14,81 +14,65 @@
       </button>
     </div>
 
-    <div v-if="isModalVisible" class="modal" @click.self="closeModal">
-      <div class="modal-content">
-        <span @click="closeModal" class="close">×</span>
-
-        <table class="min-w-full border-collapse border border-gray-300 mt-4">
-          <thead>
-          <tr>
-            <th class="border border-gray-300 px-4 py-2">ID</th>
-            <th class="border border-gray-300 px-4 py-2">ФИО</th>
-            <th class="border border-gray-300 px-4 py-2">Email</th>
-            <th class="border border-gray-300 px-4 py-2">Специальность</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="(item, index) in tableData" :key="index">
-            <td class="border border-gray-300 px-4 py-2">{{ item.id }}</td>
-            <td class="border border-gray-300 px-4 py-2">{{ item.fullName }}</td>
-            <td class="border border-gray-300 px-4 py-2">{{ item.email }}</td>
-            <td class="border border-gray-300 px-4 py-2">{{ item.specialization }}</td>
-          </tr>
-          </tbody>
-        </table>
-
-        <div class="flex justify-between mt-4">
-          <button @click="closeModal" class="bg-gray-300 text-white rounded p-2">Отмена</button>
-          <button class="bg-blue-500 text-white rounded p-2">Сохранить</button>
+    <div v-if="isModalVisible" class="modal">
+      <div class="modal-content w-2/3 ">
+        <span @click="closeModal" class="close">&times;</span>
+        <div class="m-5">
+          <div>
+            <IftaLabel class="mb-5">
+              <InputText :v-model="title" inputId="title_update_input" type="text" :placeholder="title" class="w-full"/>
+              <label for="title_update_input">Заголовок</label>
+            </IftaLabel>
+          </div>
+          <div>
+            <IftaLabel class="mb-5">
+              <InputText :v-model="task_body" inputId="task_body_update_input" type="text" :placeholder="task_body" class="w-full"/>
+              <label for="task_body_update_input">Описание</label>
+            </IftaLabel>
+          </div>
+          <div>
+            <IftaLabel class="mb-5">
+              <InputText :v-model="assignee" inputId="task_body_update_input" type="text" :placeholder="assignee" class="w-full"/>
+              <label for="task_body_update_input">Исполнитель</label>
+            </IftaLabel>
+          </div>
+          <div class="flex justify-between">
+            <button @click="closeModal" class="bg-gray-300 text-white rounded p-2">Отмена</button>
+            <button class="bg-blue-500 text-white rounded p-2">Сохранить</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="mt-4" :class="{ 'opacity-50 pointer-events-none': isModalVisible }">
-      <div v-if="assignee === 'Не назначен'" class="text-gray-700 text-sm">
-        <button @click="showModal" class="bg-green-500 text-white rounded p-2">Назначить исполнителя</button>
-      </div>
-
-      <div v-else class="text-gray-700 text-sm">
-        <span class="font-medium">Исполнитель:</span> {{ assignee }}
-      </div>
+    <div class="text-gray-700 text-sm mt-4">
+      <span class="font-medium">Исполнитель:</span> {{ assignee }}
     </div>
   </div>
 </template>
 
 <script>
-import { getUserData } from "@/api/fetchUser.js"; // Импорт функции получения данных
-
 export default {
   data() {
     return {
       isModalVisible: false,
-      tableData: [], // Массив для хранения данных пользователей
     };
   },
   methods: {
     showModal() {
-      this.isModalVisible = true; // Показать модальное окно
-      this.loadUserData(); // Загружаем данные пользователей при открытии модального окна
+      this.isModalVisible = true;
     },
     closeModal() {
-      this.isModalVisible = false; // Скрыть модальное окно
-    },
-    async loadUserData() {
-      try {
-        const userIds = [15, 16, 17]; // ID пользователей, которых нужно загрузить
-        const users = await Promise.all(userIds.map(id => getUserData(id))); // Получаем данные всех пользователей
-        this.tableData = users.filter(user => user); // Заполняем tableData, фильтруя возможные null
-        console.log(this.tableData); // Логируем данные для проверки
-      } catch (error) {
-        console.error('Ошибка при загрузке данных пользователей:', error.message);
-      }
+      this.isModalVisible = false;
     }
   },
   props: {
     title: {
       type: String,
       required: true,
+    },
+    task_body:{
+      type: String,
+      required: false,
     },
     assignee: {
       type: String,
@@ -113,7 +97,6 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
 }
 
 .modal-content {
