@@ -4,7 +4,12 @@ import { API_URL } from "@/api/auth.js"; // Укажите ваш базовый
 // Функция для получения данных пользователя
 export const getUserData = async (userId) => {
     try {
-        const response = await axios.get(`${API_URL}api/users/${userId}`);
+        const response = await axios.get(`${API_URL}api/users/${userId}`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            },
+        });
+
         const userData = response.data.users;
         console.log(response.data);
         // Обработка полей пользователя
