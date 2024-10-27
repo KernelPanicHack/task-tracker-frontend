@@ -110,7 +110,7 @@ const logout = async () => {
 <template>
   <header class="flex justify-around items-center bg-main-color w-full">
     <div class="flex items-center">
-      <img src="../assets/logoWebpractik.svg" alt="logo">
+      <img src="../assets/NETRELLO.svg" alt="logo">
     </div>
     <div class="flex items-center rounded-full px-4 py-2 w-64">
       <InputText
