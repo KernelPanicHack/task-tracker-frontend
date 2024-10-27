@@ -9,7 +9,7 @@ const apiClient = axios.create({
 
 export async function loadTasks() {
     try {
-        const response = await apiClient.get('api/tasks', {
+        const response = await apiClient.get('/api/tasks', {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('authToken')}`,
             },
