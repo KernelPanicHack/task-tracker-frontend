@@ -36,6 +36,9 @@ const props = defineProps({
 // Получаем задачи из хранилища
 const taskStore = useTaskStore();
 
+// Логируем задачи для проверки
+console.log('Tasks:', taskStore.tasks);
+
 // Фильтрация задач по `stageNumber`
 const filteredTasks = computed(() => {
   return taskStore.tasks.filter(task => task.tasks_state?.id === props.stageNumber);
@@ -47,6 +50,6 @@ const onTaskMoved = (event) => {
   const newStateId = props.stageNumber; // Получаем новое состояние (stage number)
 
   // Обновляем состояние задачи в хранилище
-  taskStore.updateTaskState(movedTask.id, newStateId); // Предполагаем, что у вас есть метод для обновления состояния задачи
+  taskStore.updateTaskState(movedTask.id, newStateId); // Убедитесь, что этот метод работает правильно
 };
 </script>

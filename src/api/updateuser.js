@@ -8,7 +8,7 @@ const apiClient = axios.create({
 export async function updateUser(fullName, specialization) {
     const userId = localStorage.getItem('user_id'); // Получаем ID пользователя из localStorage
     try {
-        const response = await apiClient.put(`api/users/${userId}/update`, { fullName, specialization }, {
+        const response = await apiClient.put(`/api/users/${userId}/update`, { fullName, specialization }, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('authToken')}`,
             },

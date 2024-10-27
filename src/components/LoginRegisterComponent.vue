@@ -115,7 +115,7 @@ const submitForm = async () => {
 
 
 <template>
-  <div class="rounded-3xl overflow-hidden shadow-2xl">
+  <div class="rounded-3xl overflow-hidden shadow-2xl ">
     <Card class="flex items-center border-solid border-20 border-main-color">
       <template #title>
         <h2 class="text-2xl font-bold text-center">

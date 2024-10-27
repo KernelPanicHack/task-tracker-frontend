@@ -1,20 +1,23 @@
 import axios from 'axios';
-import {API_URL} from "@/api/auth.js";
+import { API_URL } from "@/api/auth.js";
+import router from "@/app/router.js";
+import { nextTick } from 'vue';
 
 export async function logout() {
-            try {
-                // Выполняем запрос на выход
-                const response = await axios.get('api/logout', {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem('authToken')}`,
-                    },
-                });
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('user_id');
-                // Обрабатываем ответ (например, сбрасываем состояние пользователя)
-                console.log('Logout successful:', response.data);
-                this.$router.push({name: 'RegLog'});
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-        }
+    try {
+        const response = await axios.get('api/logout', {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            },
+        });
+
+        localStorage.clear();
+        console.log('Logout successful:', response.data);
+
+        await nextTick(); // Дождитесь завершения всех изменений в состоянии
+        router.push('/login');
+    } catch (error) {
+        console.error('Logout error:', error);
+        router.push('/main');
+    }
+}

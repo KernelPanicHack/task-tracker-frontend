@@ -9,8 +9,9 @@
         {{ title }}
       </h2>
 
-      <button @click="showModal" class="text-gray-600 hover:text-gray-800 text-xl">
-        <i class="pi pi-pencil"></i>
+      <button @click="showModal"  class="text-gray-600 hover:text-gray-800 text-xl">
+        <i  class="pi pi-pencil"></i>
+
       </button>
     </div>
 

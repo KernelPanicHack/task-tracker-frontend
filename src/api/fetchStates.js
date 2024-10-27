@@ -7,7 +7,7 @@ const apiClient = axios.create({
 
 export async function loadStates() {
     try {
-        const response = await apiClient.get('/api/states', {
+        const response = await apiClient.get('api/states', {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('authToken')}`,
             },

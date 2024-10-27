@@ -1,20 +1,29 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { logout } from "@/api/logout.js";
+import { logout as apiLogout } from "@/api/logout.js";
 import { getUserData } from '@/api/fetchUser.js';
 import { updateUser } from '@/api/updateUser.js';
 import { useTaskStore } from '@/store/taskStore';
+import { downloadExcel } from "@/api/downloadExel.js";
 
 const taskStore = useTaskStore();
 const refreshTasks = () => {
   taskStore.fetchTasks();
 };
 
+const handleDownloadClick = async () => {
+  try {
+    await downloadExcel();
+  } catch (error) {
+    console.error('Ошибка при скачивании файла:', error);
+  }
+};
+
 const searchQuery = ref('');
 const showUserInfo = ref(false);
 const fullName = ref('');
 const position = ref('');
-const roleUser = ref(localStorage.getItem('userRole') || ''); // Инициализация
+const roleUser = ref(localStorage.getItem('userRole') || '');
 const registrationDate = ref('');
 const isEditingName = ref(false);
 const isEditingPosition = ref(false);
@@ -39,14 +48,11 @@ onMounted(async () => {
     }
 
     const userData = await getUserData(userId);
-    console.log(userData);
-
     if (userData) {
       fullName.value = userData.fullName || '';
       position.value = userData.specialization || '';
       roleUser.value = userData.roles || '';
       localStorage.setItem('roleUser', JSON.stringify(roleUser.value));
-      console.log(roleUser.value);
       registrationDate.value = userData.date_of_registration || '';
       userAvatar.value = userData.avatar_path || '';
       userLetters.value = userAvatar.value
@@ -94,6 +100,11 @@ const savePositionChanges = async () => {
     console.error('Failed to save position changes:', error);
   }
 };
+
+const logout = async () => {
+  await apiLogout();
+  showUserInfo.value = false; // Закрыть модальные окна при выходе
+};
 </script>
 
 <template>
@@ -115,8 +126,7 @@ const savePositionChanges = async () => {
           class="p-button-rounded p-button-secondary p-button-outlined"
           @click="refreshTasks"
       />
-      <Button icon="pi pi-cog" class="p-button-rounded p-button-secondary p-button-outlined"/>
-      <Button icon="pi pi-download" class="p-button-rounded p-button-secondary p-button-outlined"/>
+      <Button icon="pi pi-download" class="p-button-rounded p-button-secondary p-button-outlined" @click="handleDownloadClick"/>
       <Button class="p-button-rounded p-button-secondary p-2 p-button-outlined" @click="toggleUserInfo">
         <i class="pi pi-user text-black"></i>
       </Button>
@@ -192,7 +202,7 @@ const savePositionChanges = async () => {
       </div>
 
       <div class="w-full flex justify-start gap-1" style="margin-left: 6%">
-        <span>Роль пользователя: {{roleUser.toString()}}</span>
+        <span>Роль пользователя: {{ roleUser.toString() }}</span>
       </div>
       <div v-if="roleUser.toString() === 'admin'" class="admin-panel text-center">
         <h2 class="text-red-500">Административная панель</h2>
